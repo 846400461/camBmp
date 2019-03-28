@@ -523,7 +523,15 @@ int main(int argc, char **argv)
 					
 					memcpy(bufferMalloc+14, &infoHead, 40);
 					
-					memcpy(bufferMalloc+14+40, buffer, Video.Width*Video.Height*3);
+					//memcpy(bufferMalloc+14+40, buffer, Video.Width*Video.Height*3);
+					int i=0;
+					int j=0;
+					for(i=54;i<Video.Width*Video.Height*3+54,i+=3)
+					{
+						memcpy(bufferMalloc+i,buffer+j,3);
+						j+=4;
+					}
+					
 
 					int fd_bmp;
 					fd_bmp = open("./1.bmp", O_CREAT | O_WRONLY);
@@ -532,7 +540,7 @@ int main(int argc, char **argv)
         				return -1; 
 					}
 
-					write(fd_bmp, bufferMalloc, 800*400*3+54);
+					write(fd_bmp, bufferMalloc, Video.Width*Video.Height*3+54);
 					close(fd_bmp);
 					free(bufferMalloc);
 					return 0;
